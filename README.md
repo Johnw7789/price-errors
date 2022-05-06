@@ -23,6 +23,13 @@ if err != nil {
 
 for _, deal := range deals {
 	fmt.Println(fmt.Sprintf("%s - %d percent off - $%f", deal.Name, deal.Discount, deal.Price))
+	
+	// Name     string
+	// Price    float64
+	// Brand    string
+	// Link     string
+	// Discount int
+	// CartLink string
 }
 ```
 
