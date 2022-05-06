@@ -37,7 +37,7 @@ for _, deal := range deals {
 
 Note: if the sku is not available under a particular open-box condition, then the price and savings will be 0, so always check to see if it is available.
 ```
-openBoxOffers, err := bestbuy.FetchOpenBoxOffers("123456")
+openBoxOffers, err := bestbuy.FetchOpenBoxOffers("4901811")
 if err != nil {
 	panic(err)
 }
@@ -72,7 +72,7 @@ for _, financeOption := range financeOptions {
 ```Getting inventory status for a zipcode```
 
 ```
-isAvailable, err := bestbuy.GetInventoryByZipcode("sku", "zipcode")
+isAvailable, err := bestbuy.GetInventoryByZipcode("4901811", "zipcode")
 if err != nil {
 	panic(err)
 }
