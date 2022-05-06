@@ -9,18 +9,20 @@ The two main sites that I aim to provide consistent updates for are Amazon and B
 This toolkit utilizes a few key BestBuy endpoints and exposes them to an easy to use api.
 
 A few of these are demonstrated below.
-```	deals, err := bestbuy.FetchLatestDeals("Zephyrus laptop", 10)
+```
+deals, err := bestbuy.FetchLatestDeals("Zephyrus laptop", 10)
+if err != nil {
+	panic(err)
+}
+
+for _, deal := range deals {
+	fmt.Println(fmt.Sprintf("%s - %d percent off - $%f", deal.Name, deal.Discount, deal.Price))
+
+	openBoxOffers, err := bestbuy.FetchOpenBoxOffers(deal.Sku)
 	if err != nil {
 		panic(err)
 	}
 
-	for _, deal := range deals {
-		fmt.Println(fmt.Sprintf("%s - %d percent off - $%f", deal.Name, deal.Discount, deal.Price))
-
-		openBoxOffers, err := bestbuy.FetchOpenBoxOffers(deal.Sku)
-		if err != nil {
-			panic(err)
-		}
-
-		log.Println(openBoxOffers.Excellent.Price)
-	}```
+	log.Println(openBoxOffers.Excellent.Price)
+}
+```
