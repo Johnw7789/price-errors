@@ -52,3 +52,8 @@ log.Println(openBoxOffers.Excellent.Avail)   // bool
 log.Println(openBoxOffers.Excellent.Price)   // float64
 log.Println(openBoxOffers.Excellent.Savings) // float64
 ```
+
+```Getting inventory status for a zipcode```
+
+```
+```
