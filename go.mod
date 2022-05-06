@@ -1,3 +1,3 @@
-module github.com/ffeathers/deals
+module github.com/ffeathers/price-errors
 
 go 1.18
