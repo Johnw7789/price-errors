@@ -84,7 +84,7 @@ func getOpenBoxInfo(skuId string, openBoxId string) (OpenBoxItemInfo, error) {
 }
 
 // gets the latest open box offers for an item id
-func fetchOpenBoxOffers(skuId string) (OpenBoxItem, error) {
+func FetchOpenBoxOffers(skuId string) (OpenBoxItem, error) {
 	var openBoxItem OpenBoxItem
 	var err error
 
