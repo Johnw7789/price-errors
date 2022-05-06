@@ -56,4 +56,12 @@ log.Println(openBoxOffers.Excellent.Savings) // float64
 ```Getting inventory status for a zipcode```
 
 ```
+isAvailable, err := bestbuy.GetInventoryByZipcode("sku", "zipcode")
+if err != nil {
+	panic(err)
+}
+
+if isAvailable {
+	log.Println("In Stock!")
+}
 ```
