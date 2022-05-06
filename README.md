@@ -6,5 +6,5 @@ The vast majority of these are a waste of time and my hope is that this project 
 
 The two main sites that I aim to provide consistent updates for are Amazon and BestBuy.
 
-###### Usage
+## Usage
 ```Placeholder```
