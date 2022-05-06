@@ -53,6 +53,22 @@ log.Println(openBoxOffers.Excellent.Price)   // float64
 log.Println(openBoxOffers.Excellent.Savings) // float64
 ```
 
+```Getting finance options for a sku```
+
+```
+financeOptions, err := bestbuy.GetFinanceOptions("4901811")
+if err != nil {
+	panic(err)
+}
+
+for _, financeOption := range financeOptions {
+	fmt.Println(financeOption.Name)           // string
+	fmt.Println(financeOption.OfferId)        // string
+	fmt.Println(financeOption.MonthlyPayment) // float64
+	fmt.Println(financeOption.TotalCost)      // float64
+}
+```
+
 ```Getting inventory status for a zipcode```
 
 ```
