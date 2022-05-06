@@ -11,6 +11,7 @@ This toolkit utilizes a few key BestBuy endpoints and exposes them to an easy to
 A few of these are demonstrated below.
 
 ```Getting deals using a search query```
+
 Note: the more simplistic and vague the search query, the more items will be evaluated. This is because BestBuy's search recommondation api favors less complex queries.
 ```
 deals, err := bestbuy.FetchLatestDeals("Zephyrus laptop", 10)
