@@ -27,6 +27,7 @@ for _, deal := range deals {
 ```
 
 ```Getting Open-Box offers for a specific sku```
+
 Note: if the sku is not available under a particular open-box condition, then the price and savings will be 0, so always check to see if it is available.
 ```
 openBoxOffers, err := bestbuy.FetchOpenBoxOffers("123456")
