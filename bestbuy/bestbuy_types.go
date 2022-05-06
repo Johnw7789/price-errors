@@ -56,7 +56,7 @@ type OpenBoxResponse struct {
 	ShowTotalSavings    bool    `json:"showTotalSavings"`
 	SkuID               string  `json:"skuId"`
 	TotalGiftSavings    float64 `json:"totalGiftSavings"`
-	TotalSavings        int64   `json:"totalSavings"`
+	TotalSavings        float64 `json:"totalSavings"`
 	TotalSavingsPercent int64   `json:"totalSavingsPercent"`
 }
 
@@ -228,4 +228,12 @@ type DealInfoResponse []struct {
 		} `json:"subclass"`
 		InkSubscriptions []interface{} `json:"inkSubscriptions"`
 	} `json:"sku"`
+}
+
+type ZipcodeInventoryResponse struct {
+	ButtonStateResponseInfos []struct {
+		SkuID       string `json:"skuId"`
+		ButtonState string `json:"buttonState"`
+		DisplayText string `json:"displayText"`
+	} `json:"buttonStateResponseInfos"`
 }
