@@ -23,12 +23,24 @@ if err != nil {
 
 for _, deal := range deals {
 	fmt.Println(fmt.Sprintf("%s - %d percent off - $%f", deal.Name, deal.Discount, deal.Price))
-
-	openBoxOffers, err := bestbuy.FetchOpenBoxOffers(deal.Sku)
-	if err != nil {
-		panic(err)
-	}
-
-	log.Println(openBoxOffers.Excellent.Price)
 }
+```
+
+```Getting Open-Box offers for a specific sku```
+Note: if the sku is not available under a particular open-box condition, then the price and savings will be 0, so always check to see if it is available.
+```
+openBoxOffers, err := bestbuy.FetchOpenBoxOffers("123456")
+if err != nil {
+	panic(err)
+}
+
+// There are 4 possible open-box conditions:
+// - ExcellentCertified
+// - Excellent
+// - Satisfactory
+// - Fair
+
+log.Println(openBoxOffers.Excellent.Avail)   // bool
+log.Println(openBoxOffers.Excellent.Price)   // float64
+log.Println(openBoxOffers.Excellent.Savings) // float64
 ```
