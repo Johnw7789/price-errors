@@ -18,7 +18,7 @@ import (
 type OpenBoxItemInfo struct {
 	Avail   bool
 	Price   float64
-	Savings int64
+	Savings float64
 }
 
 type OpenBoxItem struct {
@@ -29,12 +29,60 @@ type OpenBoxItem struct {
 }
 
 type Deal struct {
+	Sku      string
 	Name     string
 	Price    float64
 	Brand    string
 	Link     string
 	Discount int
 	CartLink string
+}
+
+func GetInventoryByZipcode(skuId string, zipCode string) (bool, error) {
+	url := "https://www.bestbuy.com/button-state/api/v4/button-state?skus=" + skuId + "&context=pdp&source=buttonView&storeId=&destinationZipCode=" + zipCode
+	method := "GET"
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, nil)
+
+	if err != nil {
+		return false, err
+	}
+
+	req.Header.Add("authority", "www.bestbuy.com")
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("accept-language", "en-US,en;q=0.9")
+	req.Header.Add("referer", "https://www.bestbuy.com")
+	req.Header.Add("sec-ch-ua", "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\"")
+	req.Header.Add("sec-ch-ua-mobile", "?0")
+	req.Header.Add("sec-ch-ua-platform", "\"Windows\"")
+	req.Header.Add("sec-fetch-dest", "empty")
+	req.Header.Add("sec-fetch-mode", "cors")
+	req.Header.Add("sec-fetch-site", "same-origin")
+	req.Header.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36 Edg/101.0.1210.32")
+	req.Header.Add("x-client-id", "FRV")
+
+	res, err := client.Do(req)
+	if err != nil {
+		return false, err
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return false, err
+	}
+
+	if res.StatusCode == 200 {
+		inventoryResp := ZipcodeInventoryResponse{}
+		json.Unmarshal(body, &inventoryResp)
+
+		if inventoryResp.ButtonStateResponseInfos[0].ButtonState == "ADD_TO_CART" {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }
 
 func getOpenBoxInfo(skuId string, openBoxId string) (OpenBoxItemInfo, error) {
@@ -80,7 +128,7 @@ func getOpenBoxInfo(skuId string, openBoxId string) (OpenBoxItemInfo, error) {
 		displayStatus = true
 	}
 
-	return OpenBoxItemInfo{Avail: displayStatus, Price: openBoxResp.CurrentPrice, Savings: openBoxResp.TotalSavings}, nil
+	return OpenBoxItemInfo{Avail: displayStatus, Price: openBoxResp.OpenBoxPrice, Savings: openBoxResp.TotalSavings}, nil
 }
 
 // gets the latest open box offers for an item id
@@ -190,7 +238,7 @@ func GetDealInfo(client *http.Client, skuId string) (Deal, error) {
 
 	json.Unmarshal(body, &dealInfoResp)
 
-	return Deal{Name: dealInfoResp[0].Sku.Names.Short, Price: dealInfoResp[0].Sku.Price.CurrentPrice, Brand: dealInfoResp[0].Sku.Brand.Brand, Link: "https://www.bestbuy.com" + dealInfoResp[0].Sku.URL, Discount: 0, CartLink: "https://api.bestbuy.com/click/-/" + skuId + "/cart"}, nil
+	return Deal{Sku: dealInfoResp[0].Sku.SkuID, Name: dealInfoResp[0].Sku.Names.Short, Price: dealInfoResp[0].Sku.Price.CurrentPrice, Brand: dealInfoResp[0].Sku.Brand.Brand, Link: "https://www.bestbuy.com" + dealInfoResp[0].Sku.URL, Discount: 0, CartLink: "https://api.bestbuy.com/click/-/" + skuId + "/cart"}, nil
 }
 
 func GetItemDiscount(client *http.Client, skuId string) (int, error) {
