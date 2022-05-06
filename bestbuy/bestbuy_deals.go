@@ -38,6 +38,65 @@ type Deal struct {
 	CartLink string
 }
 
+type FinanceOption struct {
+	OfferId        string
+	Name           string
+	TotalCost      float64
+	MonthlyPayment float64
+}
+
+func GetFinanceOptions(skuId string) ([]FinanceOption, error) {
+	url := "https://www.bestbuy.com/pricing/v1/price/item?allFinanceOffers=true&catalog=bby&context=price-block&includeOpenboxPrice=true&includeTotalTechWarranty=false&lib-price=19.2218.14&paidMemberSkuInCart=false&salesChannel=LargeView&skuId=" + skuId + "&usePriceWithCart=true"
+	method := "GET"
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, nil)
+
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add("authority", "www.bestbuy.com")
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("accept-language", "en-US,en;q=0.9")
+	req.Header.Add("referer", "https://www.bestbuy.com")
+	req.Header.Add("sec-ch-ua", "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\"")
+	req.Header.Add("sec-ch-ua-mobile", "?0")
+	req.Header.Add("sec-ch-ua-platform", "\"Windows\"")
+	req.Header.Add("sec-fetch-dest", "empty")
+	req.Header.Add("sec-fetch-mode", "cors")
+	req.Header.Add("sec-fetch-site", "same-origin")
+	req.Header.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36 Edg/101.0.1210.32")
+	req.Header.Add("x-client-id", "lib-price-browser")
+
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	financeResp := FinanceResponse{}
+	json.Unmarshal(body, &financeResp)
+
+	var financeOptions []FinanceOption
+
+	for _, financeOption := range financeResp.FinanceOptions {
+		var financeOpt FinanceOption
+
+		financeOpt.OfferId = financeOption.OfferID
+		financeOpt.Name = financeOption.FinanceCodeName
+		financeOpt.TotalCost = financeOption.TotalCost
+		financeOpt.MonthlyPayment = financeOption.MonthlyPayment
+
+		financeOptions = append(financeOptions, financeOpt)
+	}
+	return financeOptions, nil
+}
+
 func GetInventoryByZipcode(skuId string, zipCode string) (bool, error) {
 	url := "https://www.bestbuy.com/button-state/api/v4/button-state?skus=" + skuId + "&context=pdp&source=buttonView&storeId=&destinationZipCode=" + zipCode
 	method := "GET"
