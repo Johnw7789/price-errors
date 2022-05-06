@@ -237,3 +237,62 @@ type ZipcodeInventoryResponse struct {
 		DisplayText string `json:"displayText"`
 	} `json:"buttonStateResponseInfos"`
 }
+
+type FinanceResponse struct {
+	SkuID                 string  `json:"skuId"`
+	RegularPrice          float64 `json:"regularPrice"`
+	CurrentPrice          float64 `json:"currentPrice"`
+	PriceEventType        string  `json:"priceEventType"`
+	TotalSavings          float64 `json:"totalSavings"`
+	TotalSavingsPercent   int     `json:"totalSavingsPercent"`
+	CustomerPrice         float64 `json:"customerPrice"`
+	IsMAP                 bool    `json:"isMAP"`
+	IsPriceMatchGuarantee bool    `json:"isPriceMatchGuarantee"`
+	GspUnitPrice          float64 `json:"gspUnitPrice"`
+	LowestOpenboxPrice    float64 `json:"lowestOpenboxPrice"`
+	FinanceOption         struct {
+		OfferID                    string  `json:"offerId"`
+		FinanceCodeName            string  `json:"financeCodeName"`
+		FinanceCode                int     `json:"financeCode"`
+		Rank                       int     `json:"rank"`
+		FinanceTerm                int     `json:"financeTerm"`
+		MonthlyPayment             float64 `json:"monthlyPayment"`
+		MonthlyPaymentIncludingTax float64 `json:"monthlyPaymentIncludingTax"`
+		DefaultPlan                bool    `json:"defaultPlan"`
+		Priority                   int     `json:"priority"`
+		PlanType                   string  `json:"planType"`
+		Rate                       int     `json:"rate"`
+		TotalCost                  float64 `json:"totalCost"`
+		TermsAndConditions         string  `json:"termsAndConditions"`
+		TotalCostIncludingTax      float64 `json:"totalCostIncludingTax"`
+		FinanceCodeDescLong        string  `json:"financeCodeDescLong"`
+	} `json:"financeOption"`
+	FinanceOptions []struct {
+		OfferID                    string  `json:"offerId"`
+		FinanceCodeName            string  `json:"financeCodeName"`
+		FinanceCode                int     `json:"financeCode"`
+		Rank                       int     `json:"rank"`
+		FinanceTerm                int     `json:"financeTerm"`
+		MonthlyPayment             float64 `json:"monthlyPayment"`
+		MonthlyPaymentIncludingTax float64 `json:"monthlyPaymentIncludingTax"`
+		DefaultPlan                bool    `json:"defaultPlan"`
+		Priority                   int     `json:"priority"`
+		PlanType                   string  `json:"planType"`
+		Rate                       int     `json:"rate"`
+		TotalCost                  float64 `json:"totalCost"`
+		TermsAndConditions         string  `json:"termsAndConditions"`
+		TotalCostIncludingTax      float64 `json:"totalCostIncludingTax"`
+		FinanceCodeDescLong        string  `json:"financeCodeDescLong"`
+	} `json:"financeOptions"`
+	DotComDisplayStatus string `json:"dotComDisplayStatus"`
+	LocationID          string `json:"locationId"`
+	CurrentAsOfDate     string `json:"currentAsOfDate"`
+	PreferredBadging    string `json:"preferredBadging"`
+	TotalTechAvailable  struct {
+		Price          float64 `json:"price"`
+		Savings        float64 `json:"savings"`
+		SavingsPercent int     `json:"savingsPercent"`
+	} `json:"totalTechAvailable"`
+	HasTotalTechWarranty bool `json:"hasTotalTechWarranty"`
+	ShowTotalSavings     bool `json:"showTotalSavings"`
+}
