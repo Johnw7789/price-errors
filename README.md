@@ -18,7 +18,7 @@ Note: the more simplistic and vague the search query, the more items will be eva
 
 TODO: Add option to use the normal search page
 ```
-deals, err := bestbuy.FetchLatestDeals("gaming laptop", 10)
+deals, err := bestbuy.FetchLatestDeals("gaming laptop", 10) // search query string, minimum percent off int
 if err != nil {
 	panic(err)
 }
